@@ -13,6 +13,9 @@ import (
 
 func main() {
 	const FrontendRoot = "frontend"
+
+	const DefaultHTTPPort = 8080
+	const DefaultHTTPSPort = 8443
 	const TLSCertFile = "cert.pem"
 	const TLSPrivateKeyFile = "privkey.pem"
 
@@ -26,9 +29,9 @@ func main() {
 		log.Printf("Couldn't find %s", TLSPrivateKeyFile)
 	}
 
-	port := 8080
+	port := DefaultHTTPPort
 	if useTLS {
-		port = 8443
+		port = DefaultHTTPSPort
 	}
 
 	if len(os.Args) > 1 {
