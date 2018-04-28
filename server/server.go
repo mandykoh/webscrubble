@@ -13,8 +13,24 @@ import (
 
 func main() {
 	const FrontendRoot = "frontend"
+	const TLSCertFile = "cert.pem"
+	const TLSPrivateKeyFile = "privkey.pem"
+
+	useTLS := true
+	if _, err := os.Stat(TLSCertFile); err != nil {
+		useTLS = false
+		log.Printf("Couldn't find %s", TLSCertFile)
+	}
+	if _, err := os.Stat(TLSPrivateKeyFile); err != nil {
+		useTLS = false
+		log.Printf("Couldn't find %s", TLSPrivateKeyFile)
+	}
 
 	port := 8080
+	if useTLS {
+		port = 8443
+	}
+
 	if len(os.Args) > 1 {
 		parsedPort, err := strconv.ParseInt(os.Args[1], 10, 16)
 		if err != nil {
@@ -39,7 +55,11 @@ func main() {
 		WriteTimeout: 10 * time.Second,
 	}
 
-	log.Printf("Starting server on port %d", port)
-
-	log.Fatal(server.ListenAndServe())
+	if useTLS {
+		log.Printf("Starting HTTPS server on port %d", port)
+		log.Fatal(server.ListenAndServeTLS(TLSCertFile, TLSPrivateKeyFile))
+	} else {
+		log.Printf("Starting HTTP server on port %d", port)
+		log.Fatal(server.ListenAndServe())
+	}
 }
