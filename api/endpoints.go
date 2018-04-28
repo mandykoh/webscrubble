@@ -3,6 +3,7 @@ package api
 import (
 	"net/http"
 	"encoding/json"
+	"github.com/mandykoh/webscrubble"
 )
 
 type Endpoints struct {
@@ -14,7 +15,9 @@ func (e Endpoints) Version(w http.ResponseWriter, r *http.Request) {
 		Minor string `json:"minor"`
 		Revision string `json:"revision"`
 	}{
-		"0", "0", "0",
+		webscrubble.VersionMajor,
+		webscrubble.VersionMinor,
+		webscrubble.VersionRevision,
 	})
 
 	w.Write(versionJson)
