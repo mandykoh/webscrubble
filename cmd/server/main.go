@@ -1,14 +1,16 @@
 package main
 
 import (
-	"net/http"
 	"fmt"
-	"time"
-	"github.com/go-chi/chi"
-	"github.com/mandykoh/webscrubble/api"
 	"log"
+	"net/http"
 	"os"
 	"strconv"
+	"time"
+
+	"github.com/go-chi/chi"
+	"github.com/mandykoh/webscrubble"
+	"github.com/mandykoh/webscrubble/api"
 )
 
 func main() {
@@ -18,6 +20,8 @@ func main() {
 	const DefaultHTTPSPort = 8443
 	const TLSCertFile = "cert.pem"
 	const TLSPrivateKeyFile = "privkey.pem"
+
+	log.Printf("Webscrubble Server %s", webscrubble.Version)
 
 	useTLS := true
 	if _, err := os.Stat(TLSCertFile); err != nil {
@@ -52,9 +56,9 @@ func main() {
 	router.Get("/*", fileServer.ServeHTTP)
 
 	server := &http.Server{
-		Addr: fmt.Sprintf(":%d", port),
-		Handler: router,
-		ReadTimeout: 10 * time.Second,
+		Addr:         fmt.Sprintf(":%d", port),
+		Handler:      router,
+		ReadTimeout:  10 * time.Second,
 		WriteTimeout: 10 * time.Second,
 	}
 

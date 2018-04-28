@@ -1,9 +1,9 @@
 package main
 
 import (
-	"os"
-	"fmt"
 	"bufio"
+	"fmt"
+	"os"
 	"os/exec"
 	"regexp"
 )
@@ -39,6 +39,7 @@ func main() {
 	writer.WriteString(fmt.Sprintf("const VersionMajor = \"%s\"\n", matches[1]))
 	writer.WriteString(fmt.Sprintf("const VersionMinor = \"%s\"\n", matches[2]))
 	writer.WriteString(fmt.Sprintf("const VersionRevision = \"%s\"\n", matches[3]))
+	writer.WriteString(fmt.Sprintf("const Version = \"%s.%s.%s\"\n", matches[1], matches[2], matches[3]))
 	writer.Flush()
 
 	fmt.Printf("Updated version to %s.%s.%s\n", matches[1], matches[2], matches[3])
