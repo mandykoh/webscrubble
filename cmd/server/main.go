@@ -56,10 +56,11 @@ func main() {
 	router.Get("/*", fileServer.ServeHTTP)
 
 	server := &http.Server{
-		Addr:         fmt.Sprintf(":%d", port),
-		Handler:      router,
-		ReadTimeout:  10 * time.Second,
-		WriteTimeout: 10 * time.Second,
+		Addr:           fmt.Sprintf(":%d", port),
+		Handler:        router,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
+		MaxHeaderBytes: 1024 * 256,
 	}
 
 	if useTLS {
