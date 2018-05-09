@@ -24,6 +24,7 @@
 #   go-tests = true
 #   unused-packages = true
 
+required = ["github.com/mandykoh/go-bump"]
 
 [prune]
   go-tests = true
